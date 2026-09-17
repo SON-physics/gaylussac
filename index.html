@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게이뤼삭(Gay-Lussac) 법칙 MBL 실험 가이드</title>
+  <!-- Google Fonts & Pretendard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --primary-light: #60a5fa;
+      --accent: #06b6d4;
+      --accent-warm: #f59e0b;
+      --danger: #ef4444;
+      --success: #10b981;
+      
+      --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #111827 50%, #0f172a 100%);
+      --card-bg: rgba(30, 41, 59, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(59, 130, 246, 0.4);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --badge-bg: rgba(59, 130, 246, 0.15);
+      --badge-border: rgba(59, 130, 246, 0.3);
+      --code-bg: rgba(15, 23, 42, 0.8);
+      --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text-main);
+      line-height: 1.65;
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* Sticky Progress Header */
+    .top-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(15, 23, 42, 0.85);
+      border-bottom: 1px solid var(--card-border);
+      padding: 12px 20px;
+    }
+
+    .top-header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #e2e8f0;
+      letter-spacing: -0.3px;
+    }
+
+    .brand-pill {
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      color: white;
+      padding: 2px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+    }
+
+    .progress-bar-bg {
+      flex: 1;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #06b6d4, #3b82f6, #10b981);
+      border-radius: 999px;
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .progress-text {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent);
+      min-width: 54px;
+      text-align: right;
+    }
+
+    /* Hero Banner */
+    .hero-section {
+      max-width: 960px;
+      margin: 40px auto 30px;
+      padding: 0 20px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      color: #93c5fd;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 30%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto;
+      word-break: keep-all;
+    }
+
+    /* Quick Info Cards */
+    .quick-bar {
+      max-width: 960px;
+      margin: 0 auto 36px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+
+    .quick-card {
+      background: rgba(30, 41, 59, 0.45);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .quick-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .quick-icon.blue { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+    .quick-icon.cyan { background: rgba(6, 182, 212, 0.2); color: #22d3ee; }
+    .quick-icon.green { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .quick-icon.amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+
+    .quick-meta h4 {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .quick-meta p {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    /* Container */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Step Card */
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card:hover {
+      border-color: var(--card-hover-border);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .step-card.completed {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: rgba(16, 185, 129, 0.05);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .step-num-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .step-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #60a5fa;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.5px;
+    }
+
+    .step-card.completed .step-badge {
+      color: #34d399;
+      background: rgba(16, 185, 129, 0.15);
+      border-color: rgba(16, 185, 129, 0.3);
+    }
+
+    .step-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+
+    /* Checkbox Button */
+    .step-check-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+      flex-shrink: 0;
+    }
+
+    .step-check-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    .step-check-btn.checked {
+      background: rgba(16, 185, 129, 0.2);
+      border-color: rgba(16, 185, 129, 0.5);
+      color: #34d399;
+    }
+
+    .step-check-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2.5;
+    }
+
+    /* Content Body */
+    .step-body {
+      color: #cbd5e1;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    .step-desc {
+      margin-bottom: 16px;
+      word-break: keep-all;
+    }
+
+    /* Info Callout */
+    .callout {
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin: 14px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 0.95rem;
+    }
+
+    .callout-info {
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+      color: #bae6fd;
+    }
+
+    .callout-warning {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      color: #fed7aa;
+    }
+
+    .callout-danger {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    .callout-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Code Snippet Box (Login info) */
+    .credential-box {
+      background: var(--code-bg);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      margin: 16px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .cred-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .cred-row:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .cred-label {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .cred-value-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cred-code {
+      font-family: 'Outfit', 'Courier New', monospace;
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 4px 12px;
+      border-radius: var(--radius-sm);
+      border: 1px dashed rgba(56, 189, 248, 0.4);
+    }
+
+    .cred-val {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .copy-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f8fafc;
+      padding: 5px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    /* Images Grid */
+    .image-grid {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .grid-1 {
+      grid-template-columns: 1fr;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .image-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.25s ease;
+      position: relative;
+    }
+
+    .image-card:hover {
+      border-color: rgba(59, 130, 246, 0.5);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .img-container {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      background: #0f172a;
+      overflow: hidden;
+      cursor: zoom-in;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: transform 0.3s ease;
+    }
+
+    .image-card:hover .img-container img {
+      transform: scale(1.03);
+    }
+
+    .zoom-hint {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      pointer-events: none;
+      opacity: 0.85;
+    }
+
+    .image-caption {
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      color: #94a3b8;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      background: rgba(30, 41, 59, 0.4);
+    }
+
+    .image-caption strong {
+      color: #f1f5f9;
+      display: block;
+      margin-bottom: 2px;
+      font-size: 0.92rem;
+    }
+
+    /* Highlight badge on image card */
+    .img-sub-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.15);
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-bottom: 4px;
+    }
+
+    /* Final Action Step (Step 11) */
+    .action-step-card {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.35) 0%, rgba(15, 23, 42, 0.8) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+    }
+
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(6, 182, 212, 0.15));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .cta-banner h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .cta-banner p {
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      max-width: 540px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #2563eb, #0284c7);
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 14px 28px;
+      border-radius: 999px;
+      box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.5);
+      transition: all 0.25s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px -5px rgba(37, 99, 235, 0.7);
+      background: linear-gradient(135deg, #1d4ed8, #0369a1);
+    }
+
+    .cta-btn svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2.5;
+    }
+
+    /* Modal / Lightbox */
+    .lightbox-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      max-width: 90vw;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .lightbox-caption {
+      color: #e2e8f0;
+      margin-top: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -45px;
+      right: -10px;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast-icon {
+      color: #34d399;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .top-header-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .progress-wrap {
+        min-width: 100%;
+      }
+      .step-card {
+        padding: 20px 16px;
+      }
+      .step-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .step-check-btn {
+        align-self: flex-end;
+      }
+      .img-container {
+        height: 200px;
+      }
+      .cred-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Top Progress Header -->
+  <header class="top-header">
+    <div class="top-header-inner">
+      <div class="brand-title">
+        <span>🔬 청담고 물리 MBL</span>
+        <span class="brand-pill">게이뤼삭 법칙</span>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressFill"></div>
+        </div>
+        <div class="progress-text" id="progressText">0 / 11 완료</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Header -->
+  <section class="hero-section">
+    <div class="hero-badge">
+      <span>⚙️ 온도-압력 관계(Gay-Lussac's Law) MBL 실험</span>
+    </div>
+    <h1 class="hero-title">실험 단계별 종합 안내서</h1>
+    <p class="hero-subtitle">
+      포켓랩(PocketLab) 센서와 밀폐 용기를 이용해 온도가 상승함에 따른 기체의 압력 변화를 측정하고 데이터를 수집해 보세요.
+    </p>
+  </section>
+
+  <!-- Quick Info Highlights -->
+  <div class="quick-bar">
+    <div class="quick-card">
+      <div class="quick-icon blue">🏷️</div>
+      <div class="quick-meta">
+        <h4>학급 코드</h4>
+        <p>MWTXEU</p>
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="quick-icon cyan">👥</div>
+      <div class="quick-meta">
+        <h4>조별 대표 로그인</h4>
+        <p>O조 (예: 1조)</p>
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="quick-icon amber">⏱️</div>
+      <div class="quick-meta">
+        <h4>권장 수집 시간</h4>
+        <p>약 3분 가열</p>
+      </div>
+    </div>
+    <div class="quick-card">
+      <div class="quick-icon green">📊</div>
+      <div class="quick-meta">
+        <h4>보고서 작성</h4>
+        <p>개별 CSV 분석</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Steps Container -->
+  <main class="container">
+
+    <!-- STEP 1 -->
+    <article class="step-card" id="step1" data-step="1">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 01</span>
+          <h2 class="step-title">PocketLab 어플리케이션 실행</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(1)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          각 조에서 <strong>대표 1명</strong>의 스마트 기기(스마트폰, 태블릿, 노트북 등)로 <strong>PocketLab</strong> 어플을 켭니다.
+        </p>
+        <div class="callout callout-info">
+          <span class="callout-icon">💡</span>
+          <div>
+            <strong>팁:</strong> 웹 브라우저(Chrome 추천)로 <code>app.thepocketlab.com</code>에 접속하거나 기기에 설치된 PocketLab 전용 앱을 실행합니다.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- STEP 2 -->
+    <article class="step-card" id="step2" data-step="2">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 02</span>
+          <h2 class="step-title">학급코드 및 조 이름 입력 후 로그인</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(2)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          학급 코드와 조 번호를 정확히 입력하여 로그인합니다.
+        </p>
+        
+        <div class="credential-box">
+          <div class="cred-row">
+            <span class="cred-label">학급 코드 (Class Code)</span>
+            <div class="cred-value-wrap">
+              <span class="cred-code" id="classCodeText">MWTXEU</span>
+              <button class="copy-btn" onclick="copyClassCode()">
+                📋 복사하기
+              </button>
+            </div>
+          </div>
+          <div class="cred-row">
+            <span class="cred-label">이름 입력 형식</span>
+            <div class="cred-value-wrap">
+              <span class="cred-val">0조 <span style="font-size:0.88rem; color:#94a3b8; font-weight:normal;">(예: 1조, 2조, 3조)</span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-warning">
+          <span class="callout-icon">⚠️</span>
+          <div>
+            조 번호 형식(예: <strong>1조</strong>, <strong>2조</strong>)을 정확하게 입력해야 선생님 계정 및 보고서 제출 시스템에서 올바르게 인식됩니다.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- STEP 3 -->
+    <article class="step-card" id="step3" data-step="3">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 03</span>
+          <h2 class="step-title">실험보고서 생성 및 데이터 수집 준비</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(3)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          로그인 후 메인 화면의 <strong>[My Lab Reports]</strong> 메뉴로 이동하여 새 실험보고서를 생성하거나 주어진 과제 보고서에 입장하여 데이터 수집 화면을 엽니다.
+        </p>
+      </div>
+    </article>
+
+    <!-- STEP 4 -->
+    <article class="step-card" id="step4" data-step="4">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 04</span>
+          <h2 class="step-title">포켓랩 센서 연결 및 온도 프로브 장착</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(4)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          포켓랩 센서 전원을 켜고 블루투스로 기기와 연결한 후, 외부 <strong>온도 프로브(검은색 긴 케이블)</strong>를 센서 상단 포트에 단단히 꽂습니다.
+        </p>
+
+        <div class="image-grid grid-1">
+          <div class="image-card">
+            <div class="img-container" onclick="openLightbox('04온도프로브연결.jpg', '포켓랩 본체에 외부 온도 프로브를 연결한 모습')">
+              <img src="04온도프로브연결.jpg" alt="04 온도프로브 연결">
+              <span class="zoom-hint">🔍 클릭하여 확대</span>
+            </div>
+            <div class="image-caption">
+              <strong>[연결 확인]</strong> 포켓랩 본체의 프로브 단자에 케이블 잭을 끝까지 밀어 넣고, LED 불빛이 정상적으로 깜빡이는지 확인합니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- STEP 5 -->
+    <article class="step-card" id="step5" data-step="5">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 05</span>
+          <h2 class="step-title">실험 셋팅 (센서 활성화, 단위, 수집 간격)</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(5)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          게이뤼삭 실험을 위해 측정 항목을 <strong>[압력]</strong>과 <strong>[온도 프로브]</strong>로 맞추고, 단위 및 측정 간격을 아래 3장의 안내 사진대로 설정합니다.
+        </p>
+
+        <div class="image-grid grid-3">
+          <!-- 05. 센서 항목 -->
+          <div class="image-card">
+            <div class="img-container" onclick="openLightbox('05 실험 셋팅(온도, 프로브 설정).png', '05 센서 항목 설정: 압력 및 온도 프로브 선택')">
+              <img src="05 실험 셋팅(온도, 프로브 설정).png" alt="05 센서 설정">
+              <span class="zoom-hint">🔍 클릭 확대</span>
+            </div>
+            <div class="image-caption">
+              <span class="img-sub-badge">5-1. 센서 항목 선택</span>
+              <strong>압력 & 온도 프로브 활성화</strong>
+              날씨 탭의 [압력]과 조사 탭의 [온도 프로브]만 체크하고 나머지 센서는 끕니다.
+            </div>
+          </div>
+
+          <!-- 05-1. 단위 수정 -->
+          <div class="image-card">
+            <div class="img-container" onclick="openLightbox('05-1 단위 수정.png', '05-1 압력 단위 수정: mBar에서 kPa로 변경')">
+              <img src="05-1 단위 수정.png" alt="05-1 단위 수정">
+              <span class="zoom-hint">🔍 클릭 확대</span>
+            </div>
+            <div class="image-caption">
+              <span class="img-sub-badge">5-2. 압력 단위 수정</span>
+              <strong>단위를 kPa로 변경</strong>
+              압력 그래프 설정 아이콘을 누르고 단위를 <code>mBar</code>에서 <strong><code>kPa</code></strong>로 변경합니다.
+            </div>
+          </div>
+
+          <!-- 05-2. 수집 간격 -->
+          <div class="image-card">
+            <div class="img-container" onclick="openLightbox('05-2 수집간격수정.png', '05-2 수집 간격 설정: 1 pt/sec 선택')">
+              <img src="05-2 수집간격수정.png" alt="05-2 수집간격수정">
+              <span class="zoom-hint">🔍 클릭 확대</span>
+            </div>
+            <div class="image-caption">
+              <span class="img-sub-badge">5-3. 수집 간격 수정</span>
+              <strong>1 pt/sec (초당 1회)</strong>
+              상단의 [수집 간격] 메뉴에서 <strong><code>1 pt/sec</code></strong>를 선택해 초당 1개씩 데이터가 쌓이도록 합니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- STEP 6 -->
+    <article class="step-card" id="step6" data-step="6">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 06</span>
+          <h2 class="step-title">밀폐용기에 센서 넣기 및 감압 밀폐</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(6)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          포켓랩 본체와 온도 프로브 케이블을 유리 밀폐용기 안에 잘 정돈해 넣은 뒤, 뚜껑을 닫고 진공 펌프로 내부 압력을 빼서 확실하게 밀폐시킵니다.
+        </p>
+
+        <div class="image-grid grid-2">
+          <!-- 06-1 -->
+          <div class="image-card">
+            <div class="img-container" onclick="openLightbox('06-1밀폐용기.jpg', '06-1 센서와 프로브를 유리 용기 안에 넣은 모습')">
+              <img src="06-1밀폐용기.jpg" alt="06-1 밀폐용기에 센서 넣기">
+              <span class="zoom-hint">🔍 클릭 확대</span>
+            </div>
+            <div class="image-caption">
+              <span class="img-sub-badge">1단계: 용기에 수납</span>
+              <strong>센서 및 프로브 넣기</strong>
+              단선이나 파손이 없도록 부드럽게 감아서 용기 바닥에 넣습니다.
+            </div>
+          </div>
+
+          <!-- 06-2 -->
+          <div class="image-card">
+            <div class="img-container" onclick="openLightbox('06-2밀폐용기.jpg', '06-2 펌프로 내부 공기를 빼며 감압 밀폐시키는 모습')">
+              <img src="06-2밀폐용기.jpg" alt="06-2 펌프로 감압 밀폐">
+              <span class="zoom-hint">🔍 클릭 확대</span>
+            </div>
+            <div class="image-caption">
+              <span class="img-sub-badge">2단계: 펌프로 감압</span>
+              <strong>공기를 빼서 완전 밀폐</strong>
+              펌프를 용기 밸브에 직각으로 대고 여러 번 펌핑하여 내부 압력을 낮추고 뚜껑이 열리지 않게 밀폐합니다. (앱에서 압력 수치 감소 확인!)
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- STEP 7 -->
+    <article class="step-card" id="step7" data-step="7">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 07</span>
+          <h2 class="step-title">인덕션 냄비에 물 넣고 밀폐용기 중탕 가열</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(7)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          인덕션 위에 올린 냄비에 적당량의 물을 채우고, 밀폐된 유리 용기를 안정되게 넣은 후 인덕션을 켜서 가열을 시작합니다.
+        </p>
+
+        <div class="image-grid grid-1">
+          <div class="image-card">
+            <div class="img-container" onclick="openLightbox('07밀폐용기가열.jpg', '07 인덕션 냄비 안에 밀폐용기를 넣고 중탕 가열하는 모습')">
+              <img src="07밀폐용기가열.jpg" alt="07 밀폐용기 가열">
+              <span class="zoom-hint">🔍 클릭 확대</span>
+            </div>
+            <div class="image-caption">
+              <strong>[물 중탕 가열]</strong> 물이 끓어 넘치지 않도록 적정 수위를 유지하고, 용기가 넘어지지 않도록 안정적으로 거치합니다.
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-danger">
+          <span class="callout-icon">🔥</span>
+          <div>
+            <strong>화상 주의!</strong> 냄비와 가열된 물, 유리 용기는 매우 뜨겁습니다. 절대 맨손으로 만지지 말고 실험용 장갑이나 실리콘 집게를 사용하세요.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- STEP 8 -->
+    <article class="step-card" id="step8" data-step="8">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 08</span>
+          <h2 class="step-title">실시간 데이터 수집 (약 3분 권장)</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(8)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          앱에서 <strong>[기록(Record)]</strong> 버튼을 눌러 측정을 시작합니다. 물이 데워지면서 밀폐 용기 내부의 온도가 상승하고, 이에 따라 압력이 어떻게 비례 상승하는지 실시간 그래프를 관찰합니다.
+        </p>
+        <div class="callout callout-info">
+          <span class="callout-icon">⏱️</span>
+          <div>
+            <strong>권장 시간: 약 3분</strong><br>
+            너무 오래 가열하면 내부 압력이 지나치게 상승할 수 있으므로, 약 3분 동안 의미 있는 온도-압력 상승 추세를 관측한 뒤 수집을 마칩니다.
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- STEP 9 -->
+    <article class="step-card" id="step9" data-step="9">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 09</span>
+          <h2 class="step-title">데이터 수집 종료 및 CSV 파일로 저장</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(9)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          3분 측정이 끝나면 앱에서 <strong>[기록 중지(Stop)]</strong>를 누릅니다. 상단 또는 옵션 메뉴의 내보내기 아이콘을 눌러 <strong>CSV 파일(또는 Export .csv)</strong>로 기기에 저장합니다.
+        </p>
+      </div>
+    </article>
+
+    <!-- STEP 10 -->
+    <article class="step-card" id="step10" data-step="10">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 10</span>
+          <h2 class="step-title">저장한 CSV 파일을 조원들과 공유</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(10)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          대표가 다운로드받은 CSV 데이터 파일을 조원들에게 전송합니다.
+        </p>
+        <div class="callout callout-info">
+          <span class="callout-icon">📤</span>
+          <div>
+            <strong>공유 방법:</strong><br>
+            • iOS 기기 간: <strong>AirDrop</strong><br>
+            • 메신저/클라우드: <strong>카카오톡 조별 채팅방</strong> 또는 <strong>구글 드라이브</strong>, 이메일 등<br>
+            모든 조원이 자신의 스마트폰이나 노트북에 <code>.csv</code> 파일을 저장했는지 확인하세요!
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- STEP 11 -->
+    <article class="step-card action-step-card" id="step11" data-step="11">
+      <div class="step-header">
+        <div class="step-num-title">
+          <span class="step-badge">STEP 11</span>
+          <h2 class="step-title">각자 온라인 보고서 작성 및 분석</h2>
+        </div>
+        <button class="step-check-btn" onclick="toggleStep(11)">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+          <span class="btn-label">완료 체크</span>
+        </button>
+      </div>
+      <div class="step-body">
+        <p class="step-desc">
+          지금부터는 조별 공동 작업이 끝났습니다! 각자 전달받은 CSV 파일을 들고 아래 청담고 MBL 분석 시스템에 접속하여 개별 실험 보고서를 작성합니다.
+        </p>
+
+        <div class="cta-banner">
+          <h3>📊 청담고 MBL 온라인 실험 보고서 시스템</h3>
+          <p>
+            공유받은 CSV 파일을 업로드하여 온도에 따른 기체 압력 그래프를 시각화하고, 게이뤼삭의 법칙($P \propto T$)과 절대영도 추정치를 분석해 보세요.
+          </p>
+          <a href="https://chungdam-mbl.vercel.app" target="_blank" rel="noopener noreferrer" class="cta-btn">
+            <span>chungdam-mbl.vercel.app 바로가기</span>
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </a>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+      <img src="" alt="" class="lightbox-img" id="lightboxImg">
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+    </div>
+  </div>
+
+  <!-- Toast Message -->
+  <div class="toast" id="toast">
+    <span class="toast-icon">✅</span>
+    <span id="toastMsg">클립보드에 복사되었습니다.</span>
+  </div>
+
+  <script>
+    const TOTAL_STEPS = 11;
+    let completedSteps = new Set();
+
+    // Checkbox toggle logic
+    function toggleStep(stepNum) {
+      const card = document.getElementById('step' + stepNum);
+      const btn = card.querySelector('.step-check-btn');
+      const label = btn.querySelector('.btn-label');
+
+      if (completedSteps.has(stepNum)) {
+        completedSteps.delete(stepNum);
+        card.classList.remove('completed');
+        btn.classList.remove('checked');
+        label.textContent = '완료 체크';
+      } else {
+        completedSteps.add(stepNum);
+        card.classList.add('completed');
+        btn.classList.add('checked');
+        label.textContent = '완료됨';
+        showToast(`STEP ${stepNum} 단계를 완료했습니다! 🎉`);
+      }
+
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const count = completedSteps.size;
+      const percent = Math.round((count / TOTAL_STEPS) * 100);
+      document.getElementById('progressFill').style.width = percent + '%';
+      document.getElementById('progressText').textContent = `${count} / ${TOTAL_STEPS} 완료 (${percent}%)`;
+    }
+
+    // Copy Class Code
+    function copyClassCode() {
+      const code = "MWTXEU";
+      navigator.clipboard.writeText(code).then(() => {
+        showToast("학급코드 'MWTXEU'가 복사되었습니다! 📋");
+      }).catch(err => {
+        showToast("복사에 실패했습니다. 직접 입력해 주세요.");
+      });
+    }
+
+    // Toast logic
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.textContent = msg;
+      toast.classList.add('show');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    // Lightbox modal logic
+    const modal = document.getElementById('lightboxModal');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const lightboxCaption = document.getElementById('lightboxCaption');
+
+    function openLightbox(src, caption) {
+      lightboxImg.src = src;
+      lightboxCaption.textContent = caption;
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+  </script>
+</body>
+</html>
